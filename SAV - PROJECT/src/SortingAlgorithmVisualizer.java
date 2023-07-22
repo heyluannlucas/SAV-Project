@@ -17,9 +17,11 @@ public class SortingAlgorithmVisualizer {
             int randomCount = Integer.parseInt(args[5]);
             int[] randomList = generateRandomList(randomCount);
             sortAndVisualize(algorithm, listType, sortOrder, randomList, delay);
+
         } else if (listValueType.equalsIgnoreCase("M")) {
             String[] values = args[5].split(",");
             int[] customList = new int[values.length];
+
             for (int i = 0; i < values.length; i++) {
                 customList[i] = Integer.parseInt(values[i].trim());
             }
@@ -48,29 +50,56 @@ public class SortingAlgorithmVisualizer {
         }
 
         if (sortOrder.equalsIgnoreCase("AZ")) {
-            long startTime = System.nanoTime(); // Marca o tempo inicial
-            sorter.sortAscending(list, delay);
-            long endTime = System.nanoTime(); // Marca o tempo final
-            long elapsedTime = endTime - startTime; // Calcula o tempo decorrido em nanossegundos
-            double elapsedTimeInSeconds = elapsedTime / 1_000_000_000.0; // Converte para segundos
-
-            System.out.println("Tempo gasto: " + elapsedTimeInSeconds + " segundos");
+            System.out.println("Sorting in ascending order using " + algorithm + "...");
+            visualizeSorting(sorter, list, delay, "Passo ");
         } else if (sortOrder.equalsIgnoreCase("ZA")) {
-            long startTime = System.nanoTime(); // Marca o tempo inicial
+            System.out.println("Sorting in descending order using " + algorithm + "...");
             sorter.sortDescending(list, delay);
-            long endTime = System.nanoTime(); // Marca o tempo final
-            long elapsedTime = endTime - startTime; // Calcula o tempo decorrido em nanossegundos
-            double elapsedTimeInSeconds = elapsedTime / 1_000_000_000.0; // Converte para segundos
-
-            System.out.println("Tempo gasto: " + elapsedTimeInSeconds + " segundos");
         } else {
             System.out.println("Tipo de ordenamento inválido.");
         }
 
-        System.out.println("Lista ordenada: ");
+        System.out.println("Sorted List: ");
         printList(list);
     }
 
+    private static void visualizeSorting(SortAlgorithm sorter, int[] list, int delay, String passLabel) {
+        int pass = 1;
+        boolean sorted = false;
+
+        long startTime = System.nanoTime(); // Start timing
+
+        while (!sorted) {
+            System.out.print(passLabel + pass + ": ");
+            printList(list);
+
+            sorted = true;
+            for (int i = 0; i < list.length - 1; i++) {
+                if (list[i] > list[i + 1]) {
+                    int temp = list[i];
+                    list[i] = list[i + 1];
+                    list[i + 1] = temp;
+                    sorted = false;
+                    try {
+                        Thread.sleep(delay);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            pass++;
+        }
+
+        long endTime = System.nanoTime(); // End timing
+        double elapsedTimeInSeconds = calculateElapsedTimeInSeconds(startTime, endTime);
+
+        System.out.println("Sorting completed in " + elapsedTimeInSeconds + " seconds");
+    }
+
+    private static double calculateElapsedTimeInSeconds(long startTime, long endTime) {
+        long elapsedTime = endTime - startTime; // Calculate the elapsed time in nanoseconds
+        return elapsedTime / 1_000_000_000.0; // Convert to seconds
+    }
 
     private static int[] generateRandomList(int count) {
         int[] list = new int[count];
