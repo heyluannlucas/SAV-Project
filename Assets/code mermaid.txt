@@ -1,0 +1,41 @@
+classDiagram
+    class SortingAlgorithmViewer {
+        - elements: List
+        - sortingAlgorithm: SortingAlgorithm
+        - visualizationSpeed: int
+        + initialize(): void
+        + setElements(elements: List): void
+        + setSortingAlgorithm(algorithm: SortingAlgorithm): void
+        + setVisualizationSpeed(speed: int): void
+        + startVisualization(): void
+    }
+
+    class SortingAlgorithm {
+        + sort(elements: List): void
+    }
+
+    class BubbleSort {
+        + sort(elements: List): void
+    }
+
+    class InsertionSort {
+        + sort(elements: List): void
+    }
+
+    class SelectionSort {
+        + sort(elements: List): void
+    }
+
+    class List {
+        - elements: int[]
+        + add(element: int): void
+        + get(index: int): int
+        + size(): int
+        + swap(index1: int, index2: int): void
+    }
+
+    SortingAlgorithmViewer ..> SortingAlgorithm
+    SortingAlgorithm <|-- BubbleSort
+    SortingAlgorithm <|-- InsertionSort
+    SortingAlgorithm <|-- SelectionSort
+    SortingAlgorithmViewer o-- List
