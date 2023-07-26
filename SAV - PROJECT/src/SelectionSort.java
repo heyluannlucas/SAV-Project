@@ -1,38 +1,47 @@
 public class SelectionSort implements SortAlgorithm {
-    @Override
-    public void sortAscending(int[] list, int delay) {
-        // Implementação do Selection Sort em ordem crescente
-        int n = list.length;
-        for (int i = 0; i < n - 1; i++) {
+    public SelectionSort() {
+    }
+
+    public void sort(int[] arr, int delay, boolean ascending, SortStepCallback callback) {
+        int n = arr.length;
+
+        for(int i = 0; i < n - 1; ++i) {
             int minIndex = i;
-            for (int j = i + 1; j < n; j++) {
-                if (list[j] < list[minIndex]) {
+
+            int j;
+            for(j = i + 1; j < n; ++j) {
+                if (ascending && arr[j] < arr[minIndex] || !ascending && arr[j] > arr[minIndex]) {
                     minIndex = j;
                 }
+
+                if (callback != null) {
+                    callback.onStep(arr);
+                }
+
                 try {
-                    Thread.sleep(delay);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    Thread.sleep((long)delay);
+                } catch (InterruptedException var10) {
+                    var10.printStackTrace();
                 }
             }
 
-            int temp = list[minIndex];
-            list[minIndex] = list[i];
-            list[i] = temp;
+            j = arr[minIndex];
+            arr[minIndex] = arr[i];
+            arr[i] = j;
+            if (callback != null) {
+                callback.onStep(arr);
+            }
+
+            try {
+                Thread.sleep((long)delay);
+            } catch (InterruptedException var11) {
+                var11.printStackTrace();
+            }
         }
+
     }
 
-    @Override
-    public void sortDescending(int[] list, int delay) {
-        // Primeiro ordena em ordem crescente
-        sortAscending(list, delay);
-
-        // Inverte a lista para obter a ordem decrescente
-        int n = list.length;
-        for (int i = 0; i < n / 2; i++) {
-            int temp = list[i];
-            list[i] = list[n - i - 1];
-            list[n - i - 1] = temp;
-        }
+    public void sort(int[] arr, int delay, boolean ascending) {
+        this.sort(arr, delay, ascending, (SortStepCallback)null);
     }
 }

@@ -1,4 +1,5 @@
 public interface SortAlgorithm {
-    void sortAscending(int[] list, int delay);
-    void sortDescending(int[] list, int delay);
+    void sort(int[] var1, int var2, boolean var3, SortStepCallback var4);
+
+    void sort(int[] var1, int var2, boolean var3);
 }
