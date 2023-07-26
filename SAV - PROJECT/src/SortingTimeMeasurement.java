@@ -10,6 +10,6 @@ public class SortingTimeMeasurement {
         sorter.sort(listCopy, 0, ascending);
         long endTime = System.nanoTime();
         long elapsedTime = endTime - startTime;
-        return (double)elapsedTime / 1000.0;
+        return (double) elapsedTime / 1_000_000.0; // Convertendo de nanossegundos para milissegundos
     }
 }

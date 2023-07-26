@@ -1,5 +1,13 @@
-public interface SortAlgorithm {
-    void sort(int[] var1, int var2, boolean var3, SortStepCallback var4);
+import java.util.Arrays;
 
-    void sort(int[] var1, int var2, boolean var3);
+public interface SortAlgorithm {
+    long sort(int[] arr, int delay, boolean ascending, SortStepCallback callback);
+
+    void sort(int[] arr, int delay, boolean ascending);
+
+    long getSortingTime(); // New method to retrieve the sorting time
+
+    default void logStep(int[] arr, int stepNumber) {
+        System.out.println("Step " + stepNumber + ": " + Arrays.toString(arr));
+    }
 }

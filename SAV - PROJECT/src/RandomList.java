@@ -9,7 +9,7 @@ public class RandomList {
         Random random = new Random();
 
         for(int i = 0; i < count; ++i) {
-            list[i] = random.nextInt(100);
+            list[i] = random.nextInt(100 );
         }
 
         return list;
