@@ -26,13 +26,15 @@ public class SortingAlgorithmVisualizer {
             // Display errors and exit if arguments are invalid
             List<String> errors = argParser.getErrors();
             for (String error : errors) {
-                System.out.println(error);
+                System.out.println("\u001B[31m" + error + "\u001B[0m");
             }
-            System.out.println("Usage: java SortingAlgorithmVisualizer -a=ALGORITHM -t=LISTTYPE -o=SORTORDER -in=LISTVALUETYPE -s=DELAY -r=RANDOMCOUNT -v=CUSTOMLIST");
-            System.out.println("Example: java SortingAlgorithmVisualizer -a=B -t=N -o=AZ -in=R -s=200 -r=20");
+            System.out.println("Usage: java SortingAlgorithmVisualizer a=ALGORITHM t=LISTTYPE o=SORTORDER in=LISTVALUETYPE s=DELAY r=RANDOMCOUNT v=CUSTOMLIST");
+            System.out.println("Example: after compile use:");
+            System.out.println("java SAV a=B t=N o=AZ in=R s=200 r=20 for random values");
+            System.out.println("java SAV a=B t=N o=AZ in=m s=200 v='2,7,8.9,10' for manual values");
+
             return;
         }
-
         // Get the validated values of the arguments
         algorithm = argParser.getString("a", "algorithm", "").toUpperCase();
         listType = argParser.getString("t", "listtype", "").toUpperCase();
@@ -60,7 +62,7 @@ public class SortingAlgorithmVisualizer {
 
         // Check if listType is "C" and display error message
         if (listType.equals("C")) {
-            System.out.println("Character list type not implemented. Use -t=N to run the program with a numeric list.");
+            System.out.println("Character list type not implemented. Use t=N to run the program with a numeric list.");
             return;
         }
 
@@ -90,7 +92,7 @@ public class SortingAlgorithmVisualizer {
                 System.out.println("Sorting in descending order using " + SortAlgorithmFactory.getAlgorithmName(algorithm) + "...");
                 visualizeSorting(sorter, list, delay, false);
             } else {
-                System.out.println("Tipo de ordenamento inválido.");
+                return;
             }
             double time = sorter.getSortingTime();
             System.out.println("Time taken by " + SortAlgorithmFactory.getAlgorithmName(algorithm) + " in " + sortOrder + " order: " + sorter.getSortingTime() + " miliseconds");

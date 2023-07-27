@@ -27,7 +27,7 @@ public class ArgumentParser {
 
         String algorithm = getString("a", "algorithm", "").toUpperCase();
         if (!isValidAlgorithm(algorithm)) {
-            addError("Invalid sorting algorithm. Use -a=B for Bubble Sort, -a=I for Insertion Sort, or -a=S for Selection Sort.");
+            addError("Invalid sorting algorithm. Use a=B for Bubble Sort, a=I for Insertion Sort, or a=S for Selection Sort.");
             isValid = false;
         }
 
@@ -39,25 +39,25 @@ public class ArgumentParser {
 
         String sortOrder = getString("o", "sortorder", "").toUpperCase();
         if (!isValidSortOrder(sortOrder)) {
-            addError("Invalid sort order. Use -o=AZ for ascending order or -o=ZA for descending order.");
+            addError("Invalid sort order. Use o=AZ for ascending order or o=ZA for descending order.");
             isValid = false;
         }
 
         String listValueType = getString("in", "listvaluetype", "").toUpperCase();
         if (!isValidListValueType(listValueType)) {
-            addError("Invalid list value type. Use -in=R for random list or -in=M for custom list.");
+            addError("Invalid list value type. Use in=R for random list or in=M for custom list.");
             isValid = false;
         }
 
         int delay = getInt("s", "delay", 0);
         if (!isValidDelay(delay)) {
-            addError("Invalid delay value. The value of -s should be between 100 and 1000.");
+            addError("Invalid delay value. The value of s should be between 100 and 1000.");
             isValid = false;
         }
 
         int randomCount = getInt("r", "randomcount", 0);
         if (!isValidRandomCount(randomCount)) {
-            addError("Invalid random count value. The value of -r should be between 1 and 40.");
+            addError("Invalid random count value. The value of r should be between 1 and 40.");
             isValid = false;
         }
 
@@ -111,9 +111,9 @@ public class ArgumentParser {
 
     public String getListTypeMessage(String listType) {
         if (listType.equals("C")) {
-            return "Custom list type not implemented. Use -t=N to run the program with a numeric list.";
+            return "Custom list type not implemented. Use t=N to run the program with a numeric list.";
         }
-        return "Invalid list type. Use -t=N for numeric list or -t=C for character list.";
+        return "Invalid list type. Use t=N for numeric list or t=C for character list.";
     }
 
     public boolean isValidRandomCount(int randomCount) {
