@@ -2,59 +2,68 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Arrays;
+import java.util.List;
 import javax.swing.*;
 
 public class SortingAlgorithmVisualizer {
-    private static int steps;
+    private static int steps = 1;
     private static JFrame frame;
     private static int[] originalList;
 
-
-    public SortingAlgorithmVisualizer() {
-    }
-
     public static void main(String[] args) {
-        // Argumentos padrão
-        String algorithm = "i";
-        String listType = "N";
-        String sortOrder = "Az";
+        // Default parameter values
+        String algorithm = "b";
+        String listType = "n";
+        String sortOrder = "za";
         String listValueType = "r";
-        int delay = 500;
-        int randomCount = 5;
+        int delay = 100;
+        int randomCount = 15;
         int[] customList = null;
 
-        // Interpretar os argumentos da linha de comando
+        // Interpreta os argumentos da linha de comando
         ArgumentParser argParser = new ArgumentParser(args);
+
+        // Validate the arguments
+        if (!argParser.validateArguments()) {
+            // Display errors and exit if arguments are invalid
+            List<String> errors = argParser.getErrors();
+            for (String error : errors) {
+                System.out.println(error);
+            }
+            System.out.println("Uso: java SortingAlgorithmVisualizer -a=ALGORITHM -t=LISTTYPE -o=SORTORDER -in=LISTVALUETYPE -s=DELAY -r=RANDOMCOUNT -v=CUSTOMLIST");
+            System.out.println("Exemplo: java SortingAlgorithmVisualizer -a=B -t=N -o=AZ -in=R -s=200 -r=20");
+            return;
+        }
+
+        // Get the validated values of the arguments
         algorithm = argParser.getString("a", "algorithm", algorithm).toUpperCase();
         listType = argParser.getString("t", "listtype", listType).toUpperCase();
         sortOrder = argParser.getString("o", "sortorder", sortOrder).toUpperCase();
         listValueType = argParser.getString("in", "listvaluetype", listValueType).toUpperCase();
         delay = argParser.getInt("s", "delay", delay);
-        randomCount = argParser.getInt("r", "randomcount", randomCount);
-        customList = argParser.getIntArray("v", "customlist", customList);
 
-        // Verificar o tipo de valor da lista
-        int[] list;
-        if (listValueType.equalsIgnoreCase("R")) {
-            list = RandomList.getRandomList(randomCount); // Chamando o método e obtendo a lista aleatória
-        } else if (listValueType.equalsIgnoreCase("M")) {
+        // Get the custom list if listValueType is "M"
+        if (listValueType.equals("M")) {
+            customList = argParser.getIntArray("v", "customlist", customList);
             if (customList == null) {
                 System.out.println("Lista personalizada não fornecida.");
                 return;
             }
-            list = customList;
-        } else {
-            System.out.println("Tipo de valor da lista inválido.");
-            return;
         }
 
-        // Chamar o método de ordenação e visualização
+        // Generate or get the random list if listValueType is "R"
+        int[] list;
+        if (listValueType.equals("R")) {
+            randomCount = argParser.getInt("r", "randomcount", randomCount);
+            list = RandomList.getRandomList(randomCount);
+        } else {
+            list = customList;
+        }
+
+        // Sort and visualize the list
         sortAndVisualize(algorithm, listType, sortOrder, list, delay);
     }
-
-
     private static void sortAndVisualize(final String algorithm, String listType, String sortOrder, final int[] list, int delay) {
-
         SortAlgorithm sorter = SortAlgorithmFactory.createSorter(algorithm);
         if (sorter == null) {
             System.out.println("Algoritmo de ordenação inválido.");
@@ -69,12 +78,13 @@ public class SortingAlgorithmVisualizer {
                     SortingAlgorithmVisualizer.drawListNumbers(g, list);
                     SortingAlgorithmVisualizer.drawBars(g, list);
                     SortingAlgorithmVisualizer.drawStats(g, list.length, SortingAlgorithmVisualizer.steps, algorithm);
-
                 }
             };
             frame.add(panel);
             frame.setVisible(true);
             originalList = Arrays.copyOf(list, list.length);
+
+            System.out.println("Array inicial: " + Arrays.toString(list));
 
             if (sortOrder.equalsIgnoreCase("AZ")) {
                 System.out.println("Sorting in ascending order using " + SortAlgorithmFactory.getAlgorithmName(algorithm) + "...");
@@ -87,22 +97,19 @@ public class SortingAlgorithmVisualizer {
             }
 
             System.out.println("Time taken by " + SortAlgorithmFactory.getAlgorithmName(algorithm) + " in " + sortOrder + " order: " + sorter.getSortingTime() + " miliseconds");
-            System.out.println("Sorted List: ");
+            System.out.println("Lista ordenada: "+ Arrays.toString(list));
         }
-
-
     }
-
 
     private static void visualizeSorting(SortAlgorithm sorter, int[] list, int delay, boolean ascending) {
         int passo = 1;
-        steps = 0;
 
         while (passo <= list.length) {
             sorter.sort(list, delay, ascending, new StepCallback(list, delay));
             frame.repaint();
-            boolean sorted = true;
 
+            // Verifica se a lista está ordenada após cada iteração
+            boolean sorted = true;
             for (int i = 0; i < list.length - 1; ++i) {
                 if ((ascending && list[i] > list[i + 1]) || (!ascending && list[i] < list[i + 1])) {
                     sorted = false;
@@ -115,7 +122,6 @@ public class SortingAlgorithmVisualizer {
             }
 
             ++steps;
-            ++passo;
 
             try {
                 Thread.sleep(delay);
@@ -140,9 +146,9 @@ public class SortingAlgorithmVisualizer {
 
             Color barColor;
             if (originalList[i] == list[i]) {
-                barColor = new Color(135, 206, 250); // Cor azul para barras já ordenadas
+                barColor = new Color(135, 206, 250);
             } else {
-                barColor = new Color(255, 192, 203); // Cor rosa para barras em processo de ordenação
+                barColor = new Color(255, 192, 203);
             }
 
             g.setColor(barColor);

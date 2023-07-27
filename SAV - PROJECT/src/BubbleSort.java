@@ -1,5 +1,7 @@
 public class BubbleSort implements SortAlgorithm {
-    private long sortingTime; // Declare sortingTime as an instance variable
+    private long sortingTime;
+    private int stepCounter = 0;
+
 
     public BubbleSort() {
     }
@@ -7,7 +9,7 @@ public class BubbleSort implements SortAlgorithm {
     public long sort(int[] arr, int delay, boolean ascending, SortStepCallback callback) {
         long startTime = System.nanoTime(); // Record the start time
         int n = arr.length;
-        int stepCounter = 1;
+        stepCounter = 1;
 
         for (int i = 0; i < n - 1; ++i) {
             boolean swapped = false;
@@ -47,6 +49,9 @@ public class BubbleSort implements SortAlgorithm {
         return sortingTime; // Getter to access the sorting time from outside
     }
 
+    public int getStepCounter() {
+        return stepCounter;
+    }
 
     public void sort(int[] arr, int delay, boolean ascending) {
         this.sort(arr, delay, ascending, (SortStepCallback) null);
