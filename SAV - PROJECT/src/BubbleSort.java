@@ -7,7 +7,7 @@ public class BubbleSort implements SortAlgorithm {
     }
 
     public long sort(int[] arr, int delay, boolean ascending, SortStepCallback callback) {
-        long startTime = System.nanoTime(); // Record the start time
+        long startTime = System.nanoTime();
         int n = arr.length;
         stepCounter = 1;
 
@@ -20,7 +20,6 @@ public class BubbleSort implements SortAlgorithm {
                     arr[j] = arr[j + 1];
                     arr[j + 1] = temp;
                     swapped = true;
-                    stepCounter++; // Increment the step counter on each swap
                 }
 
                 if (callback != null) {
@@ -28,11 +27,12 @@ public class BubbleSort implements SortAlgorithm {
                 }
 
                 try {
-                    Thread.sleep((long) delay);
+                    Thread.sleep(delay);
                 } catch (InterruptedException var10) {
                     var10.printStackTrace();
                 }
                 logStep(arr, stepCounter); // Log using the stepCounter
+                stepCounter++; // Incrementa o contador de passos a cada iteração
             }
 
             if (!swapped) {
@@ -53,7 +53,5 @@ public class BubbleSort implements SortAlgorithm {
         return stepCounter;
     }
 
-    public void sort(int[] arr, int delay, boolean ascending) {
-        this.sort(arr, delay, ascending, (SortStepCallback) null);
-    }
+
 }

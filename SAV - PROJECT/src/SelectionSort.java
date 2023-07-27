@@ -62,8 +62,4 @@ public class SelectionSort implements SortAlgorithm {
     public int getStepCounter() {
         return stepCounter; // Retorna o total de passos ou iterações realizadas
     }
-
-    public void sort(int[] arr, int delay, boolean ascending) {
-        this.sort(arr, delay, ascending, null);
-    }
 }

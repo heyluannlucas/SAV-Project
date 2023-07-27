@@ -28,8 +28,8 @@ public class InsertionSort implements SortAlgorithm {
                     var10.printStackTrace();
                 }
 
-                logStep(arr, i); // Log usando o índice atual 'i'.
-                stepCounter++; // Incrementa o contador de passos a cada iteração do while
+                logStep(arr, stepCounter); // Log using the stepCounter
+
             }
 
             arr[j + 1] = key;
@@ -44,12 +44,13 @@ public class InsertionSort implements SortAlgorithm {
                 var11.printStackTrace();
             }
 
-            logStep(arr, i); // Log usando o índice atual 'i'.
+            logStep(arr, stepCounter); // Log usando o índice atual 'i'.
             stepCounter++; // Incrementa o contador de passos após a troca
         }
 
         long endTime = System.nanoTime(); // Record the end time
-        sortingTime = (endTime - startTime) / 1_000_000; // Store the sorting time in milliseconds
+        long time = (endTime - startTime); // Store the sorting time in milliseconds
+        sortingTime = time / 1_000_000;
         return sortingTime; // Return the sorting time in milliseconds
     }
 
@@ -62,7 +63,4 @@ public class InsertionSort implements SortAlgorithm {
         return stepCounter; // Retorna o total de passos ou iterações realizadas
     }
 
-    public void sort(int[] arr, int delay, boolean ascending) {
-        this.sort(arr, delay, ascending, null);
-    }
 }

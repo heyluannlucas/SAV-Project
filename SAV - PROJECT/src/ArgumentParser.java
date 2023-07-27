@@ -25,39 +25,39 @@ public class ArgumentParser {
     public boolean validateArguments() {
         boolean isValid = true;
 
-        String algorithm = getString("a", "algorithm", "b").toUpperCase();
+        String algorithm = getString("a", "algorithm", "").toUpperCase();
         if (!isValidAlgorithm(algorithm)) {
-            addError("Algoritmo de ordenação inválido. Use a=b para Bubble Sort");
+            addError("Invalid sorting algorithm. Use -a=B for Bubble Sort, -a=I for Insertion Sort, or -a=S for Selection Sort.");
             isValid = false;
         }
 
-        String listType = getString("t", "listtype", "n").toUpperCase();
+        String listType = getString("t", "listtype", "").toUpperCase();
         if (!isValidListType(listType)) {
             addError(getListTypeMessage(listType));
             isValid = false;
         }
 
-        String sortOrder = getString("o", "sortorder", "za").toUpperCase();
+        String sortOrder = getString("o", "sortorder", "").toUpperCase();
         if (!isValidSortOrder(sortOrder)) {
-            addError("Tipo de ordenamento inválido.");
+            addError("Invalid sort order. Use -o=AZ for ascending order or -o=ZA for descending order.");
             isValid = false;
         }
 
-        String listValueType = getString("in", "listvaluetype", "r").toUpperCase();
+        String listValueType = getString("in", "listvaluetype", "").toUpperCase();
         if (!isValidListValueType(listValueType)) {
-            addError("Tipo de valor da lista inválido.");
+            addError("Invalid list value type. Use -in=R for random list or -in=M for custom list.");
             isValid = false;
         }
 
-        int delay = getInt("s", "delay", 100);
+        int delay = getInt("s", "delay", 0);
         if (!isValidDelay(delay)) {
-            addError("O valor de \"s\" deve estar entre 100 e 1000.");
+            addError("Invalid delay value. The value of -s should be between 100 and 1000.");
             isValid = false;
         }
 
-        int randomCount = getInt("r", "randomcount", 15);
+        int randomCount = getInt("r", "randomcount", 0);
         if (!isValidRandomCount(randomCount)) {
-            addError("O valor de \"r\" deve estar entre 1 e 40.");
+            addError("Invalid random count value. The value of -r should be between 1 and 40.");
             isValid = false;
         }
 
@@ -105,35 +105,29 @@ public class ArgumentParser {
         return algorithm.equals("B") || algorithm.equals("I") || algorithm.equals("S");
     }
 
-    // Novo método para verificar se o tipo de lista é válido
     public boolean isValidListType(String listType) {
-        return listType.equalsIgnoreCase("N") || listType.equalsIgnoreCase("C");
+        return listType.equals("N") || listType.equals("C");
     }
 
-    // Novo método para obter mensagem específica do tipo de lista
     public String getListTypeMessage(String listType) {
-        if (listType.equalsIgnoreCase("C")) {
-            return "Lista de caracteres ainda não implementada. Use -t=n para executar o programa com uma lista numérica.";
+        if (listType.equals("C")) {
+            return "Custom list type not implemented. Use -t=N to run the program with a numeric list.";
         }
-        return "Tipo de lista inválido. Use -t=n para lista numérica ou -t=c para lista de caracteres.";
+        return "Invalid list type. Use -t=N for numeric list or -t=C for character list.";
     }
 
-    // Método para validar o valor de "r"
     public boolean isValidRandomCount(int randomCount) {
         return randomCount >= 1 && randomCount <= 40;
     }
 
-    // Método para validar o valor de "s"
     public boolean isValidDelay(int delay) {
         return delay >= 100 && delay <= 1000;
     }
-
 
     public List<String> getErrors() {
         return errors;
     }
 
-    // Método para adicionar erros à lista de erros
     private void addError(String error) {
         errors.add(error);
     }
