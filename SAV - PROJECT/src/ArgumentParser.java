@@ -47,17 +47,26 @@ public class ArgumentParser {
         if (!isValidListValueType(listValueType)) {
             addError("Invalid list value type. Use in=R for random list or in=M for custom list.");
             isValid = false;
+        } else {
+            if (listValueType.equals("R")) {
+                int randomCount = getInt("r", "randomcount", 0);
+                if (!isValidRandomCount(randomCount)) {
+                    addError("Invalid random count value. The value of r should be between 1 and 40.");
+                    isValid = false;
+                }
+            } else if (listValueType.equals("M")) {
+                String customValue = getString("v", "customvalue", "");
+                if (customValue.isEmpty()) {
+                    addError("Custom value is required when list value type is M. Use v=<value> to specify the custom value.");
+                    isValid = false;
+                }
+            }
         }
+
 
         int delay = getInt("s", "delay", 0);
         if (!isValidDelay(delay)) {
             addError("Invalid delay value. The value of s should be between 100 and 1000.");
-            isValid = false;
-        }
-
-        int randomCount = getInt("r", "randomcount", 0);
-        if (!isValidRandomCount(randomCount)) {
-            addError("Invalid random count value. The value of r should be between 1 and 40.");
             isValid = false;
         }
 

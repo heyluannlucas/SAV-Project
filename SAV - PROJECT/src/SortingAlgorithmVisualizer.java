@@ -6,7 +6,6 @@ import javax.swing.WindowConstants;
 public class SortingAlgorithmVisualizer {
     static int steps = 1;
     private static JFrame frame;
-    private static int[] originalList;
 
     public static void main(String[] args) {
         // Default parameter values
@@ -30,8 +29,8 @@ public class SortingAlgorithmVisualizer {
             }
             System.out.println("Usage: java SortingAlgorithmVisualizer a=ALGORITHM t=LISTTYPE o=SORTORDER in=LISTVALUETYPE s=DELAY r=RANDOMCOUNT v=CUSTOMLIST");
             System.out.println("Example: after compile use:");
-            System.out.println("java SAV a=B t=N o=AZ in=R s=200 r=20 for random values");
-            System.out.println("java SAV a=B t=N o=AZ in=m s=200 v='2,7,8.9,10' for manual values");
+            System.out.println("\u001B[32mjava SAV a=B t=N o=AZ in=R s=200 r=20 \u001B[0mfor random values");
+            System.out.println("\u001B[32mjava SAV a=B t=N o=AZ in=m s=200 v='2,7,8.9,10' \u001B[0mfor manual values");
 
             return;
         }
@@ -68,34 +67,38 @@ public class SortingAlgorithmVisualizer {
 
         // Sort and visualize the list
         sortAndVisualize(algorithm, listType, sortOrder, list, delay);
-    }    private static void sortAndVisualize(final String algorithm, String listType, String sortOrder, final int[] list, int delay) {
+    }
+    private static void sortAndVisualize(final String algorithm, String listType, String sortOrder, final int[] list, int delay) {
         SortAlgorithm sorter = SortAlgorithmFactory.createSorter(algorithm);
+        String SortName = sorter.getName();
+
         if (sorter == null) {
             System.out.println("Algoritmo de ordenação inválido.");
+
         } else {
-            frame = new JFrame("Sorting Algorithm Visualizer - " + SortAlgorithmFactory.getAlgorithmName(algorithm));
+            frame = new JFrame("Sorting Algorithm Visualizer - " + SortName);
             frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
             frame.setSize(800, 600);
 
             SavGUI panel = new SavGUI(list, algorithm, sorter, sortOrder, delay);
             frame.add(panel);
             frame.setVisible(true);
-            originalList = Arrays.copyOf(list, list.length);
+            int[] originalList = Arrays.copyOf(list, list.length);
 
             System.out.println("Array inicial: " + Arrays.toString(list));
 
             if (sortOrder.equalsIgnoreCase("AZ")) {
-                System.out.println("Sorting in ascending order using " + SortAlgorithmFactory.getAlgorithmName(algorithm) + "...");
+                System.out.println("Sorting in ascending order using " + SortName + "...");
                 visualizeSorting(sorter, list, delay, true);
 
             } else if (sortOrder.equalsIgnoreCase("ZA")) {
-                System.out.println("Sorting in descending order using " + SortAlgorithmFactory.getAlgorithmName(algorithm) + "...");
+                System.out.println("Sorting in descending order using " + SortName + "...");
                 visualizeSorting(sorter, list, delay, false);
             } else {
                 return;
             }
-            double time = sorter.getSortingTime();
-            System.out.println("Time taken by " + SortAlgorithmFactory.getAlgorithmName(algorithm) + " in " + sortOrder + " order: " + sorter.getSortingTime() + " miliseconds");
+            long time = sorter.getSortingTime();
+            System.out.println("Time taken by " + SortName + " in " + sortOrder + " order: " + time + " miliseconds");
             System.out.println("Lista ordenada: "+ Arrays.toString(list));
 
         }
@@ -108,7 +111,6 @@ public class SortingAlgorithmVisualizer {
             sorter.sort(list, delay, ascending, new StepCallback(list, delay));
             frame.repaint();
 
-            // Verifica se a lista está ordenada após cada iteração
             boolean sorted = true;
             for (int i = 0; i < list.length - 1; ++i) {
                 if ((ascending && list[i] > list[i + 1]) || (!ascending && list[i] < list[i + 1])) {

@@ -44,14 +44,11 @@ public class BubbleSort implements SortAlgorithm {
         sortingTime = (endTime - startTime) / 1_000_000; // Store the sorting time in milliseconds
         return sortingTime; // Return the sorting time in milliseconds
     }
+    @Override
+    public long getSortingTime() {return sortingTime;}
+    @Override
+    public int getStepCounter() {return stepCounter;}
 
-    public long getSortingTime() {
-        return sortingTime; // Getter to access the sorting time from outside
-    }
-
-    public int getStepCounter() {
-        return stepCounter;
-    }
-
-
+    @Override
+    public String getName() {return "Bubble Sort";}
 }

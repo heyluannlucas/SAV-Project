@@ -5,13 +5,13 @@ import java.util.Arrays;
 import javax.swing.*;
 
 public class SavGUI extends JPanel {
-    private int[] list;
-    private int[] originalList;
-    private int steps;
-    private String algorithm;
-    private SortAlgorithm sorter;
-    private String sortOrder;
-    private int delay;
+    private final int[] list;
+    private final int[] originalList;
+    private final int steps;
+    private final String algorithm;
+    private final SortAlgorithm sorter;
+    private final String sortOrder;
+    private final int delay;
 
     public SavGUI(int[] list, String algorithm, SortAlgorithm sorter, String sortOrder, int delay) {
         this.list = list;
@@ -25,7 +25,7 @@ public class SavGUI extends JPanel {
 
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        setBackground(new Color(230, 230, 230)); // Define a cor de fundo como cinza claro
+        setBackground(new Color(230, 230, 230));
         drawListNumbers(g, list);
         drawBars(g, list, originalList);
         drawStats(g, list.length, steps, algorithm, sorter, sortOrder, delay);
@@ -39,35 +39,22 @@ public class SavGUI extends JPanel {
         int gap = 5;
         int padding = 20;
 
-        // Define an array of pastel colors
-        Color[] pastelColors = {
-                new Color(255, 204, 204), // Light pink
-                new Color(204, 255, 204), // Light green
-                new Color(204, 204, 255), // Light blue
-                new Color(255, 255, 204), // Light yellow
-                new Color(255, 204, 255), // Light purple
-                new Color(204, 255, 255)  // Light cyan
-        };
-
         for (int i = 0; i < list.length; ++i) {
             int barHeight = list[i] * heightMultiplier;
             int barX = startX + padding + (width + gap) * i;
             int barY = startY - barHeight;
 
-            // Get the index of the pastel color based on the current bar index
-            int colorIndex = i % pastelColors.length;
-            Color barColor = pastelColors[colorIndex];
+            Color barColor;
 
-            // Set the color based on the comparison with the original list
-            if (list[i] == originalList[i]) {
-                // Sorted bar color
-                barColor = new Color(135, 206, 250); // Light blue
-            } else if (isSorting(list, originalList, i)) {
+            if (isSorting(list, originalList, i)) {
                 // Sorting bar color
                 barColor = new Color(255, 192, 203); // Light pink
+            } else if (list[i] == originalList[i]) {
+                // Sorted bar color
+                barColor = new Color(135, 206, 250); // Light blue
             } else {
                 // Unsorted bar color
-                barColor = new Color(230, 230, 230); // Light gray
+                barColor = new Color(255, 255, 224); // Light yellow
             }
 
             g.setColor(barColor);
@@ -118,8 +105,9 @@ public class SavGUI extends JPanel {
     }
 
     private void drawStats(Graphics g, int listSize, int steps, String algorithm, SortAlgorithm sorter, String sortOrder, int delay) {
-        double time = (double) sorter.getSortingTime(); // Cast the sorting time to an integer
-        int etapa = sorter.getStepCounter();
+        long time = sorter.getSortingTime();
+        int etapas = sorter.getStepCounter();
+        String SortName = sorter.getName();
 
         int startX = 400;
         int startY = 100;
@@ -127,12 +115,12 @@ public class SavGUI extends JPanel {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 16));
         g.setColor(Color.MAGENTA);
-        g.drawString("Algorithm: " + SortAlgorithmFactory.getAlgorithmName(algorithm), startX, startY);
+        g.drawString("Algorithm: " + SortName , startX, startY);
         g.setColor(Color.BLACK);
         g.drawString("Number of Elements: " + listSize, startX, startY + gap);
-        g.drawString("Number of Steps: " + etapa, startX, startY + 2 * gap);
-        g.drawString("Time Taken: " + time + " milliseconds", startX, startY + 3 * gap);
-        g.drawString("Sorting Order: " + (sortOrder.equalsIgnoreCase("AZ") ? "Ascending (AC)" : "Descending (ZA)"), startX, startY + 4 * gap);
+        g.drawString("Number of Steps: " + etapas, startX, startY + 2 * gap);
+        g.drawString("Time Taken: " + time + " ms", startX, startY + 3 * gap);
+        g.drawString("Sorting Order: " + (sortOrder.equalsIgnoreCase("AZ") ? "Ascending (AZ)" : "Descending (ZA)"), startX, startY + 4 * gap);
         g.drawString("Delay: " + delay + " milliseconds", startX, startY + 5 * gap);
     }
 }
