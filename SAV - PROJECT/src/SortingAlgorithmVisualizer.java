@@ -30,7 +30,7 @@ public class SortingAlgorithmVisualizer {
             System.out.println("Usage: java SortingAlgorithmVisualizer a=ALGORITHM t=LISTTYPE o=SORTORDER in=LISTVALUETYPE s=DELAY r=RANDOMCOUNT v=CUSTOMLIST");
             System.out.println("Example: after compile use:");
             System.out.println("\u001B[32mjava SAV a=B t=N o=AZ in=R s=200 r=20 \u001B[0mfor random values");
-            System.out.println("\u001B[32mjava SAV a=B t=N o=AZ in=m s=200 v='2,7,8.9,10' \u001B[0mfor manual values");
+            System.out.println("\u001B[32mjava SAV a=B t=N o=AZ in=m s=200 v='2,7,8,9,10' \u001B[0mfor manual values");
 
             return;
         }
