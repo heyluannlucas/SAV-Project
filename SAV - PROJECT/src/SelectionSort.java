@@ -5,7 +5,7 @@ public class SelectionSort implements SortAlgorithm {
     private int stepCounter = 1;
 
     public long sort(int[] arr, int delay, boolean ascending, SortStepCallback callback) {
-        long startTime = System.nanoTime(); // Record the start time
+        long startTime = System.nanoTime();
         int n = arr.length;
         stepCounter = 1;
 
@@ -60,7 +60,7 @@ public class SelectionSort implements SortAlgorithm {
     }
 
     public int getStepCounter() {
-        return stepCounter; // Retorna o total de passos ou iterações realizadas
+        return stepCounter;
     }
 
     @Override

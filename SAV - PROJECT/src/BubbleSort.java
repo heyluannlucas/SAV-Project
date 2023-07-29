@@ -31,8 +31,8 @@ public class BubbleSort implements SortAlgorithm {
                 } catch (InterruptedException var10) {
                     var10.printStackTrace();
                 }
-                logStep(arr, stepCounter); // Log using the stepCounter
-                stepCounter++; // Incrementa o contador de passos a cada iteração
+                logStep(arr, stepCounter);
+                stepCounter++;
             }
 
             if (!swapped) {
@@ -40,9 +40,9 @@ public class BubbleSort implements SortAlgorithm {
             }
         }
 
-        long endTime = System.nanoTime(); // Record the end time
-        sortingTime = (endTime - startTime) / 1_000_000; // Store the sorting time in milliseconds
-        return sortingTime; // Return the sorting time in milliseconds
+        long endTime = System.nanoTime();
+        sortingTime = (endTime - startTime) / 1_000_000;
+        return sortingTime;
     }
     @Override
     public long getSortingTime() {return sortingTime;}

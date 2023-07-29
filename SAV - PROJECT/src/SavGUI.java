@@ -12,6 +12,7 @@ public class SavGUI extends JPanel {
     private final SortAlgorithm sorter;
     private final String sortOrder;
     private final int delay;
+    private int traversalIndex;
 
     public SavGUI(int[] list, String algorithm, SortAlgorithm sorter, String sortOrder, int delay) {
         this.list = list;
@@ -21,6 +22,7 @@ public class SavGUI extends JPanel {
         this.sorter = sorter;
         this.sortOrder = sortOrder;
         this.delay = delay;
+        this.traversalIndex = -1;
     }
 
     protected void paintComponent(Graphics g) {
@@ -46,15 +48,15 @@ public class SavGUI extends JPanel {
 
             Color barColor;
 
-            if (isSorting(list, originalList, i)) {
-                // Sorting bar color
-                barColor = new Color(255, 192, 203); // Light pink
+            if (i == traversalIndex) {
+                // Traversal bar color
+                barColor = new Color(135, 206, 250);
             } else if (list[i] == originalList[i]) {
                 // Sorted bar color
-                barColor = new Color(135, 206, 250); // Light blue
+                barColor = new Color(135, 206, 250);
             } else {
                 // Unsorted bar color
-                barColor = new Color(255, 255, 224); // Light yellow
+                barColor = new Color(255, 192, 203);
             }
 
             g.setColor(barColor);
@@ -71,12 +73,7 @@ public class SavGUI extends JPanel {
     }
 
     private boolean isSorting(int[] list, int[] originalList, int index) {
-        for (int i = 0; i < index; i++) {
-            if (list[i] != originalList[i]) {
-                return true;
-            }
-        }
-        return false;
+        return index <= traversalIndex;
     }
 
     private void drawListNumbers(Graphics g, int[] list) {
@@ -122,5 +119,11 @@ public class SavGUI extends JPanel {
         g.drawString("Time Taken: " + time + " ms", startX, startY + 3 * gap);
         g.drawString("Sorting Order: " + (sortOrder.equalsIgnoreCase("AZ") ? "Ascending (AZ)" : "Descending (ZA)"), startX, startY + 4 * gap);
         g.drawString("Delay: " + delay + " milliseconds", startX, startY + 5 * gap);
+    }
+
+
+    public void setTraversalIndex(int index) {
+        this.traversalIndex = index;
+        repaint();
     }
 }

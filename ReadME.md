@@ -149,7 +149,7 @@ reponsavel pela chamada do main
 
 - in= Se os valores devem ser aleatórios ou informados pelo usuário. Os valores possíveis são `r` para aleatório, `m` para informado pelo usuário.
 
-![Validacao tipo de valores](Assets/validacaoTipoValores.png)
+![Validacao tipo de valores](Assets/ValidacaoRandom.png)
 
 - v= Os valores da lista. Se forem informados pelo usuário ou seja `in=m`. Os valores devem ser separados por vírgulas e r nao precisa ser passado.
 
@@ -190,9 +190,9 @@ Ordenará uma lista de 40 números aleatórios de menor para maior, usando o Sel
 ***
 
 <div class="profile-link">
-  <a href="https://gitlab.com/hey_luannlucas" style="display: flex; align-items: center; text-decoration: none;">
-    <img src="Assets/icons8-gitlab.svg" alt="GitLab" width="60" height="60" style="margin-right: 10px; border-radius: 50%;">
-    <span class="name" style="font-size: 24px; font-weight: bold; color: #0000f;">Luann Lucas</span>
+  <a href="https://github.com/heyluannlucas" style="display: flex; align-items: center; text-decoration: none;">
+    <img src="Assets/icon.png" alt="GitLab" width="60" height="60" style="margin-right: 10px; border-radius: 50%;">
+    <span class="name" style="font-size: 24px; font-weight: bold; color: #ffffff;">Luann Lucas</span>
   </a>
 </div>
 

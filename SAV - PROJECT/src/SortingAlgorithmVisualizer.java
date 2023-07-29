@@ -8,7 +8,6 @@ public class SortingAlgorithmVisualizer {
     private static JFrame frame;
 
     public static void main(String[] args) {
-        // Default parameter values
         String algorithm = "";
         String listType = "";
         String sortOrder = "";
@@ -17,12 +16,9 @@ public class SortingAlgorithmVisualizer {
         int randomCount = 0;
         int[] customList = null;
 
-        // Interpret the command-line arguments
         ArgumentParser argParser = new ArgumentParser(args);
 
-        // Validate the arguments
         if (!argParser.validateArguments()) {
-            // Display errors and exit if arguments are invalid
             List<String> errors = argParser.getErrors();
             for (String error : errors) {
                 System.out.println("\u001B[31m" + error + "\u001B[0m");
@@ -34,14 +30,12 @@ public class SortingAlgorithmVisualizer {
 
             return;
         }
-        // Get the validated values of the arguments
         algorithm = argParser.getString("a", "algorithm", "").toUpperCase();
         listType = argParser.getString("t", "listtype", "").toUpperCase();
         sortOrder = argParser.getString("o", "sortorder", "").toUpperCase();
         listValueType = argParser.getString("in", "listvaluetype", "").toUpperCase();
         delay = argParser.getInt("s", "delay", 0);
 
-        // Get the custom list if listValueType is "M"
         if (listValueType.equals("M")) {
             customList = argParser.getIntArray("v", "customlist", customList);
             if (customList == null) {
@@ -50,7 +44,6 @@ public class SortingAlgorithmVisualizer {
             }
         }
 
-        // Generate or get the random list if listValueType is "R"
         int[] list;
         if (listValueType.equals("R")) {
             randomCount = argParser.getInt("r", "randomcount", 0);
@@ -59,13 +52,11 @@ public class SortingAlgorithmVisualizer {
             list = customList;
         }
 
-        // Check if listType is "C" and display error message
         if (listType.equals("C")) {
             System.out.println("Character list type not implemented. Use t=N to run the program with a numeric list.");
             return;
         }
 
-        // Sort and visualize the list
         sortAndVisualize(algorithm, listType, sortOrder, list, delay);
     }
     private static void sortAndVisualize(final String algorithm, String listType, String sortOrder, final int[] list, int delay) {
